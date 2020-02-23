@@ -6,29 +6,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codebrekers.entity.User;
-import com.codebrekers.repository.UserRepository;
+import com.codebrekers.service.UserService;
 
 @RestController
-public class HomeController {
-	
+@RequestMapping("/users")
+public class UserController {
+
 	@Autowired
-	private UserRepository userRepository;
-	
-	@PostMapping("/get")
-	public String createuser(@RequestBody User user) {
+	private UserService userService;
+
+	@PostMapping("/addUser")
+	public User createuser(@RequestBody User user) {
 		System.out.println(user.getId());
 		System.out.println(user.getTitle());
-		userRepository.save(user);
-		return "Working";
-		
+
+		return userService.createuser(user);
+
 	}
-	
-	@GetMapping("/getall")
-	public List<User> getAllUser(){
-		return userRepository.findAll();
+
+	@GetMapping("/getallusers")
+	public List<User> getAllUser() {
+		return userService.getAllUser();
 	}
 
 }
